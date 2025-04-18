@@ -3,14 +3,21 @@
 ## Livro: Curso de Estatística Experimental
 
 ---
-### 📘 Estatística aplicada à pesquisa agrícola
-![Estatística aplicada à pesquisa agrícola](./imagens/Estatística aplicada.jpg)
+## 📘 Estatística Aplicada à Pesquisa Agrícola  
+**Autor:** Francisco José Pielsticker Zimmermann  
+![Estatística Aplicada à Pesquisa Agrícola](./imagens/estatistica-aplicada.jpg)
 
-### 📗 Curso de Estatística Experimental
-![Curso de Estatística Experimental](./imagens/cursojpg)
+---
 
-### 📙 Experimentação Agrícola
-![Experimentação Agrícola](./imagens/Experimentação.jpg)
+## 📗 Curso de Estatística Experimental  
+**Autor:** Frederico Pimentel-Gomes  
+![Curso de Estatística Experimental](./imagens/curso-estatistica-experimental.webp)
+
+---
+
+## 📙 Experimentação Agrícola  
+**Autores:** David A. Banzatto & Sérgio do N. Kronka  
+![Experimentação Agrícola](./imagens/experimentacao-agricola.jpg)
 
 Repositório dedicado ao ensino na área de Estatística Experimental nas Ciências Agrárias
 
