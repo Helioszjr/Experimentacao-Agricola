@@ -1,0 +1,382 @@
+---
+title: |
+  ![](img/pgm.png){width=25%}
+  
+  Lixiviação do Nitrogênio
+author: 
+- Helio de Souza Junior,^[Universidade Estadual de Maringá, helioszjr@gmail.com] PG:55679
+date: 09/04/2025
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: flatly
+    highlight: haddock
+    editor_options: 
+      chunk_output_type: console
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, cache.lazy = FALSE, fig.width = 9)
+```
+
+```{r create-dirs, include=FALSE}
+dir.create('Exercicios10_files/figure-html', recursive = TRUE, showWarnings = FALSE)
+```
+
+Trabalho de avaliação elaborado durante a disciplina DAG4062 – Métodos Estatísticos, ministrado pelo Prof. Dr. Carlos Scapim, como instrumento para fixação de conhecimento e obtenção de nota. 
+
+## Introdução
+
+Este relatório apresenta uma análise estatística dos dados de lixiviação de nitrogênio em um experimento fatorial 2³ com blocos casualizados. Os fatores avaliados foram:
+
+- **A**: pH do solo (A1 = original, A2 = corrigido)
+- **B**: tipo de ureia (B1 = ureia comum, B2 = ureia com cobertura)
+- **C**: dose de ureia (C1 = dose baixa, C2 = dose alta)
+
+---
+
+## Organizaçao dos Dados
+
+Foram realizadas 3 repetições por tratamento, totalizando 24 observações.
+
+```{r}
+# Dados do experimento
+bloco <- rep(1:3, 8)
+A <- rep(c("A1", "A1", "A1", "A1", "A2", "A2", "A2", "A2"), each = 3)
+B <- rep(c("B1", "B1", "B2", "B2", "B1", "B1", "B2", "B2"), each = 3)
+C <- rep(c("C1", "C2", "C1", "C2", "C1", "C2", "C1", "C2"), each = 3)
+
+resposta <- c(
+  22.65, 23.82, 20.96,
+  57.11, 49.35, 35.97,
+  15.46, 11.14, 15.10,
+  35.84, 15.67, 21.53,
+  8.94, 7.65, 9.94,
+  18.02, 22.51, 22.00,
+  6.31, 5.68, 4.99,
+  13.15, 4.89, 7.05
+)
+
+dados <- data.frame(
+  Bloco = factor(bloco),
+  A = factor(A),
+  B = factor(B),
+  C = factor(C),
+  N_Lixiviado = resposta
+)
+
+head(dados)
+```
+
+## Modelo Estatístico
+
+O modelo estatístico adotado para a análise do experimento fatorial \(2 \times 2 \times 2\), em um delineamento em blocos casualizados
+
+$$
+Y_{ijkl} = \mu + B_l + A_i + B_j + C_k + (AB)_{ij} + (AC)_{ik} + (BC)_{jk} + (ABC)_{ijk} + \varepsilon_{ijkl}
+$$
+
+**Onde:**
+
+- \( Y_{ijkl} \): valor observado da resposta (ex: perda por lixiviação de nitrogênio);
+- \( \mu \): média geral;
+- \( B_l \): efeito do \(l\)-ésimo bloco (\(l = 1, 2, 3\));
+- \( A_i \): efeito do fator A (pH do solo);
+- \( B_j \): efeito do fator B (tipo de ureia);
+- \( C_k \): efeito do fator C (dose de ureia);
+- \( (AB)_{ij} \): interação entre os fatores A e B;
+- \( (AC)_{ik} \): interação entre os fatores A e C;
+- \( (BC)_{jk} \): interação entre os fatores B e C;
+- \( (ABC)_{ijk} \): interação tripla entre A, B e C;
+- \( \varepsilon_{ijkl} \): erro aleatório, assumido \( \sim N(0, \sigma^2) \).
+
+
+## Analíse de Variância (ANOVA)
+
+```{r}
+# Modelo com interacao tripla e blocos
+modelo <- aov(N_Lixiviado ~ Bloco + A * B * C, data = dados)
+
+# Resumo da ANOVA
+summary(modelo)
+```
+
+---
+
+## Médias dos Tratamentos
+
+```{r}
+# Medias por combinacao de fatores
+aggregate(N_Lixiviado ~ A + B + C, data = dados, mean)
+```
+
+---
+
+## Visualização Gráfica
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+
+ggplot(dados, aes(x = interaction(A,B,C), y = N_Lixiviado)) +
+  geom_boxplot(fill = "lightgreen") +
+  labs(
+    title = "Lixiviacao de Nitrogenio por Tratamento (A x B x C)",
+    x = "Tratamentos",
+    y = "N Lixiviado (mg)"
+  ) +
+  theme_minimal()
+```
+
+## Hipóteses Estatísticas
+
+As hipóteses nulas e alternativas para cada efeito no modelo fatorial \(2 \times 2 \times 2\), com blocos, são:
+
+### Efeitos principais:
+
+- **Fator A (tipo de solo):**
+
+  \[
+  \begin{cases}
+  H_0: A_1 = A_2 \quad \text{(não há efeito do tipo de solo)} \\
+  H_1: A_1 \ne A_2 \quad \text{(há efeito do tipo de solo)}
+  \end{cases}
+  \]
+
+- **Fator B (tipo de ureia):**
+
+  \[
+  \begin{cases}
+  H_0: B_1 = B_2 \quad \text{(não há efeito do tipo de ureia)} \\
+  H_1: B_1 \ne B_2 \quad \text{(há efeito do tipo de ureia)}
+  \end{cases}
+  \]
+
+- **Fator C (dose de ureia):**
+
+  \[
+  \begin{cases}
+  H_0: C_1 = C_2 \quad \text{(não há efeito da dose de ureia)} \\
+  H_1: C_1 \ne C_2 \quad \text{(há efeito da dose de ureia)}
+  \end{cases}
+  \]
+
+### Interações:
+
+- **Interação A × B:**
+
+  \[
+  \begin{cases}
+  H_0: (AB)_{ij} = 0 \quad \text{(não há interação entre solo e ureia)} \\
+  H_1: (AB)_{ij} \ne 0 \quad \text{(há interação entre solo e ureia)}
+  \end{cases}
+  \]
+
+- **Interação A × C:**
+
+  \[
+  \begin{cases}
+  H_0: (AC)_{ik} = 0 \quad \text{(não há interação entre solo e dose)} \\
+  H_1: (AC)_{ik} \ne 0 \quad \text{(há interação entre solo e dose)}
+  \end{cases}
+  \]
+
+- **Interação B × C:**
+
+  \[
+  \begin{cases}
+  H_0: (BC)_{jk} = 0 \quad \text{(não há interação entre ureia e dose)} \\
+  H_1: (BC)_{jk} \ne 0 \quad \text{(há interação entre ureia e dose)}
+  \end{cases}
+  \]
+
+- **Interação A × B × C:**
+
+  \[
+  \begin{cases}
+  H_0: (ABC)_{ijk} = 0 \quad \text{(não há interação tripla entre os fatores)} \\
+  H_1: (ABC)_{ijk} \ne 0 \quad \text{(há interação tripla entre os fatores)}
+  \end{cases}
+  \]
+
+
+## Diferença Mínima Significativa (DMS)
+
+A fórmula utilizada é:
+
+\[
+DMS = t_{(\alpha, \text{GLres})} \cdot \sqrt{2 \cdot \dfrac{QM_{res}}{n}}
+\]
+
+### Onde:
+- \( t_{(\alpha, \text{GLres})} \): valor da t-student = 2.1788
+- \( QM_{res} \): quadrado médio dos resíduos (erro) = 0.05433891
+- \( n \): número de repetições por tratamento = 3
+
+### Cálculo:
+
+\[
+DMS = 2.1788 \cdot \sqrt{2 \cdot \dfrac{0.05433891}{3}} \approx 2.1788 \cdot 0.1903 \approx \boxed{0.4145}
+\]
+
+Duas médias diferem significativamente se:
+
+\[
+|\bar{Y}_i - \bar{Y}_j| > DMS
+\]
+
+
+## Pressupostos
+
+A ANOVA depende do atendimento dos seguintes pressupostos:
+
+1. **Normalidade dos Erros**  
+   - Os resíduos do modelo devem seguir uma distribuição normal.
+   - Testes: Shapiro-Wilk, histograma, QQ-plot.
+
+2. **Homogeneidade das Variâncias (Homoscedasticidade)**  
+   - A variância dos erros deve ser constante entre os grupos.
+   - Testes: Bartlett, Levene; gráfico de resíduos vs. valores ajustados.
+
+3. **Independência dos Erros**  
+   - Os resíduos devem ser independentes entre si.
+   - Verificado pelo delineamento experimental e ordem de coleta.
+
+4. **Aditividade dos Efeitos**  
+   - Supõe-se que os efeitos principais e interações se somam linearmente.
+
+Caso algum desses pressupostos não seja atendido, pode-se considerar transformações nos dados ou o uso de métodos não paramétricos.
+
+## Conclusão
+
+- **Fatores significativos** (p < 0.05) indicam influencia estatistica na lixiviacao de nitrogenio.
+- Em que:
+  - **Doses maiores (C2)** resultem em mais perdas.
+  - **Ureia com cobertura (B2)** apresente menor lixiviacao.
+  - **pH corrigido (A2)** reduza a lixiviacao de nitrogenio.
+
+Analises adicionais podem ser feitas com testes de comparacao de medias (Tukey) e graficos de interacao, conforme necessidade.
+
+---
+
+## Fórmulas Gerais da Análise de Variância (ANOVA) - Só deixei aqui para me ajudar nos exercícios
+
+Fórmulas gerais para o cálculo das somas de quadrados em um experimento fatorial \( 2 \times 2 \times 2 \), com blocos ao acaso e uma variável resposta contínua.
+
+### Soma de Quadrados Total (SQT)
+
+\[
+SQ_{Total} = \sum_{i,j,k,l} Y_{ijkl}^2 - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+
+### Soma de Quadrados do Bloco (SQB)
+
+\[
+SQ_{Bloco} = \frac{1}{abc} \sum_{l=1}^{r} \left( Y_{\cdot\cdot\cdot l} \right)^2 - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados do Fator A
+
+\[
+SQ_{A} = \frac{1}{bcr} \sum_{i=1}^{a} \left( Y_{i\cdot\cdot\cdot} \right)^2 - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados do Fator B
+
+\[
+SQ_{B} = \frac{1}{acr} \sum_{j=1}^{b} \left( Y_{\cdot j\cdot\cdot} \right)^2 - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados do Fator C
+
+\[
+SQ_{C} = \frac{1}{abr} \sum_{k=1}^{c} \left( Y_{\cdot\cdot k\cdot} \right)^2 - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados da Interação AB
+
+\[
+SQ_{AB} = \frac{1}{cr} \sum_{i=1}^{a} \sum_{j=1}^{b} \left( Y_{ij\cdot\cdot} \right)^2 - SQ_A - SQ_B - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados da Interação AC
+
+\[
+SQ_{AC} = \frac{1}{br} \sum_{i=1}^{a} \sum_{k=1}^{c} \left( Y_{i\cdot k\cdot} \right)^2 - SQ_A - SQ_C - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados da Interação BC
+
+\[
+SQ_{BC} = \frac{1}{ar} \sum_{j=1}^{b} \sum_{k=1}^{c} \left( Y_{\cdot jk\cdot} \right)^2 - SQ_B - SQ_C - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados da Interação ABC
+
+\[
+SQ_{ABC} = \frac{1}{r} \sum_{i=1}^{a} \sum_{j=1}^{b} \sum_{k=1}^{c} \left( Y_{ijk\cdot} \right)^2 - SQ_{AB} - SQ_{AC} - SQ_{BC} - SQ_A - SQ_B - SQ_C - \frac{(\sum Y_{ijkl})^2}{n}
+\]
+
+### Soma de Quadrados do Erro (SQE)
+
+\[
+SQ_{Erro} = SQ_{Total} - SQ_{Bloco} - SQ_A - SQ_B - SQ_C - SQ_{AB} - SQ_{AC} - SQ_{BC} - SQ_{ABC}
+\]
+
+
+## Graus de Liberdade (GL)
+
+Os graus de liberdade associados a cada fonte de variação no experimento fatorial \(2 \times 2 \times 2\) com blocos são definidos da seguinte forma:
+
+- Fator A (tipo de solo):  
+  \[
+  GL_A = a - 1
+  \]
+
+- Fator B (tipo de ureia):  
+  \[
+  GL_B = b - 1
+  \]
+
+- Fator C (dose de ureia):  
+  \[
+  GL_C = c - 1
+  \]
+
+- Interação A × B:  
+  \[
+  GL_{AB} = (a - 1)(b - 1)
+  \]
+
+- Interação A × C:  
+  \[
+  GL_{AC} = (a - 1)(c - 1)
+  \]
+
+- Interação B × C:  
+  \[
+  GL_{BC} = (b - 1)(c - 1)
+  \]
+
+- Interação A × B × C:  
+  \[
+  GL_{ABC} = (a - 1)(b - 1)(c - 1)
+  \]
+
+- Blocos:  
+  \[
+  GL_{Bloco} = r - 1
+  \]
+
+- Erro experimental (resíduo):  
+  \[
+  GL_{Erro} = (a \cdot b \cdot c \cdot (r - 1))
+  \]
+
+- Total:  
+  \[
+  GL_{Total} = n - 1 = (a \cdot b \cdot c \cdot r) - 1
+  \]
+

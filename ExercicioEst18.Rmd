@@ -1,0 +1,311 @@
+---
+title: |
+  ![](img/pgm.png){width=25%} 
+  
+  Experimento com feijão caupi *Vigna unguiculata*
+author: 
+- Helio de Souza Junior,^[Universidade Estadual de Maringá, helioszjr@gmail.com] PG:55679
+date: 09/04/2025
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: simplex
+    highlight: haddock
+    editor_options: 
+      chunk_output_type: console
+  chunk_output_type: console
+---
+
+Trabalho de avaliação elaborado durante a disciplina DAG4062 – Métodos Estatísticos, ministrado pelo Prof. Dr. Carlos Scapim, como instrumento para fixação de conhecimento e obtenção de nota. 
+
+## Introdução
+
+Avaliação da patogenicidade de quatro isolados de *Colletotrichum lindemuthianum* em três cultivares de feijão caupi (*Vigna unguiculata*), com três repetições.
+
+---
+
+```{r}
+# Pacotes necessários
+library(agricolae)
+library(tidyverse)
+library(dplyr)
+library(ggplot2)
+```
+
+## Organizaçao dos Dados
+
+Fatorial 3 × 4 (3 cultivares × 4 isolados), inteiramente casualizado, com 3 repetições por tratamento.
+
+```{r}
+# Dados do experimento 
+dados <- data.frame(
+  Cultivar = rep(c("VITA_III", "IPEAN_V69", "IPA_203"), each = 12),
+  Isolado = rep(rep(c("C1", "C2", "C3", "C4"), each = 3), 3),
+  Repeticao = rep(1:3, times = 12),
+  Area_Afetada = c(
+    # VITA III
+    86.0, 84.5, 89.0,   # C1
+    28.5, 26.0, 27.0,   # C2
+    54.0, 58.0, 55.0,   # C3
+    80.0, 78.0, 81.0,   # C4
+
+    # IPEAN V-69
+    94.0, 93.5, 91.0,   # C1
+    30.0, 28.5, 32.5,   # C2
+    92.0, 93.5, 91.5,   # C3
+    70.0, 68.0, 69.0,   # C4
+
+    # IPA-203
+    77.5, 80.0, 84.0,   # C1
+    30.0, 27.5, 28.0,   # C2
+    68.5, 64.0, 63.0,   # C3
+    75.0, 78.5, 74.5    # C4
+  )
+)
+
+```
+
+## Modelo Estatístico (ANOVA Fatorial 3 x 4)
+
+O experimento segue um **delineamento inteiramente casualizado (DIC)**, com 3 repetições, em esquema fatorial **3 × 4**, com:
+
+- **3 cultivares de feijão-caupi** (VITA III, IPEAN V-69, IPA-203)  
+- **4 isolados de *Colletotrichum*** (C1, C2, C3, C4)  
+
+O modelo estatístico utilizado foi:
+
+$$
+Y_{ijk} = \mu + A_i + B_j + (AB)_{ij} + \varepsilon_{ijk}
+$$
+
+**Onde:**
+
+- \( Y_{ijk} \): Valor observado da variável resposta (área foliar afetada)  
+- \( \mu \): Média geral  
+- \( A_i \): Efeito do i-ésimo nível do fator **Cultivar**  
+- \( B_j \): Efeito do j-ésimo nível do fator **Isolado**  
+- \( (AB)_{ij} \): Efeito da **interação** entre os fatores A e B  
+- \( \varepsilon_{ijk} \): Erro aleatório, assumido \( \sim N(0, \sigma^2) \)
+
+### Suposições do Modelo
+
+- Independência dos erros
+- Normalidade dos resíduos
+- Homogeneidade de variâncias
+
+## Analíse de Variância (ANOVA)
+
+```{r}
+# ANOVA fatorial 3 x 4 (Cultivar x Isolado)
+modelo <- aov(Area_Afetada ~ Cultivar * Isolado, data = dados)
+summary(modelo)
+```
+
+---
+
+## Teste de Tukey (5%)
+
+```{r}
+# Teste de Tukey para cada fator
+tukey_cultivar <- HSD.test(modelo, "Cultivar", group = TRUE, console = TRUE)
+tukey_isolado <- HSD.test(modelo, "Isolado", group = TRUE, console = TRUE)
+
+# Teste de Tukey para a interação (se for significativa)
+tukey_interacao <- HSD.test(modelo, trt = c("Cultivar", "Isolado"), group = TRUE, console = TRUE)
+
+```
+
+## Médias, Desvio Padrão e Erro Padrão
+
+```{r medias-desvios-final, warning=FALSE, message=FALSE}
+# Calcular média, desvio padrão e erro padrão
+estatisticas <- dados %>%
+  group_by(Cultivar, Isolado) %>%
+  summarise(
+    n = n(),
+    Media = mean(Area_Afetada),
+    DP = sd(Area_Afetada),
+    EP = DP / sqrt(n),
+    .groups = 'drop'
+  )
+
+# Visualizar a tabela
+print(estatisticas)
+```
+
+## Gráficos de Barras com Erro Padrão
+
+```{r}
+
+# Calcular estatísticas
+estatisticas <- dados %>%
+  group_by(Cultivar, Isolado) %>%
+  summarise(
+    Media = mean(Area_Afetada),
+    EP = sd(Area_Afetada) / sqrt(n()),
+    .groups = "drop"
+  )
+
+# Gráfico de barras
+ggplot(estatisticas, aes(x = Isolado, y = Media, fill = Cultivar)) +
+  geom_col(position = position_dodge(width = 0.9), color = "black") +
+  geom_errorbar(aes(ymin = Media - EP, ymax = Media + EP),
+                position = position_dodge(width = 0.9),
+                width = 0.2) +
+  labs(
+    title = "Área foliar afetada (média e EP)",
+    x = "Isolado",
+    y = "Área afetada (%)",
+    fill = "Cultivar"
+  ) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top"
+  )
+
+```
+
+## Gráfico Boxplot
+
+```{r}
+ggplot(dados, aes(x = Isolado, y = Area_Afetada, fill = Cultivar)) +
+  geom_boxplot(outlier.shape = 21, outlier.fill = "white", outlier.size = 2) +
+  labs(
+    title = "Distribuição da área afetada por tratamento",
+    x = "Isolado",
+    y = "Área foliar afetada (%)",
+    fill = "Cultivar"
+  ) +
+  scale_fill_brewer(palette = "Pastel1") +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top"
+  )
+
+```
+
+## Gráfico de Interação
+
+```{r}
+# Calcular médias para interação
+medias_interacao <- dados %>%
+  group_by(Cultivar, Isolado) %>%
+  summarise(Media = mean(Area_Afetada), .groups = "drop")
+
+# Gráfico de interação
+ggplot(medias_interacao, aes(x = Isolado, y = Media, group = Cultivar, color = Cultivar)) +
+  geom_line(size = 1.2) +
+  geom_point(size = 3) +
+  labs(
+    title = "Interação Cultivar × Isolado",
+    x = "Isolado",
+    y = "Área afetada (%)",
+    color = "Cultivar"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 45, hjust = 1),
+    legend.position = "top"
+  )
+
+```
+
+## Hipóteses Estatísticas (ANOVA Fatorial 3×4)
+
+### Efeito principal de Cultivar (Fator A)
+
+- **H₀A (nula)**: As médias dos cultivares são iguais.  
+  $H_{0A}: \mu_1 = \mu_2 = \mu_3$
+- **H₁A (alternativa)**: Pelo menos um cultivar tem média diferente.
+
+### Efeito principal de Isolado (Fator B)
+
+- **H₀B (nula)**: As médias dos isolados são iguais.  
+  $H_{0B}: \mu_{C1} = \mu_{C2} = \mu_{C3} = \mu_{C4}$
+- **H₁B (alternativa)**: Pelo menos um isolado tem média diferente.
+
+### Interação Cultivar × Isolado (A×B)
+
+- **H₀AB (nula)**: Não há interação entre cultivar e isolado.  
+  (O efeito de um fator é independente do outro)
+- **H₁AB (alternativa)**: Existe interação.  
+  (O efeito de um isolado depende do cultivar e vice-versa)
+
+## Pressupostos
+
+1. **Normalidade dos Erros**  
+   - Os resíduos do modelo devem seguir uma distribuição normal.  
+   - Testes: Shapiro-Wilk, histograma, QQ-plot.
+
+2. **Homogeneidade das Variâncias (Homoscedasticidade)**  
+   - A variância dos erros deve ser constante entre os grupos.  
+   - Testes: Bartlett, Levene; gráfico de resíduos vs. valores ajustados.
+
+3. **Independência dos Erros**  
+   - Os resíduos devem ser independentes entre si.  
+   - Verificado pelo delineamento experimental e ordem de coleta.
+
+4. **Aditividade dos Efeitos**  
+   - Supõe-se que os efeitos principais e interações se somam linearmente.
+
+## Conclusões
+
+- Todos os efeitos foram **estatisticamente significativos** (p < 0,01).
+- Há interação significativa entre cultivar e isolado.
+- É necessário analisar cada combinação cultivar × isolado.
+- Alguns cultivares mostram maior resistência a determinados isolados.
+
+---
+
+## Fórmulas Gerais da ANOVA Fatorial (3×4) - Só deixei aqui para me ajudar no exercício
+
+### Modelo estatístico
+
+\[
+Y_{ijk} = \mu + A_i + B_j + (AB)_{ij} + \varepsilon_{ijk}
+\]
+
+### Soma de Quadrados (SQ)
+
+- **Total**:  
+  \( SQ_T = \sum_{i=1}^{a} \sum_{j=1}^{b} \sum_{k=1}^{r} (Y_{ijk} - \bar{Y}...)^2 \)
+
+- **Fator A (Cultivar)**:  
+  \( SQ_A = br \sum_{i=1}^{a} (\bar{Y}_{i..} - \bar{Y}...)^2 \)
+
+- **Fator B (Isolado)**:  
+  \( SQ_B = ar \sum_{j=1}^{b} (\bar{Y}_{.j.} - \bar{Y}...)^2 \)
+
+- **Interação A×B**:  
+  \( SQ_{AB} = r \sum_{i=1}^{a} \sum_{j=1}^{b} (\bar{Y}_{ij.} - \bar{Y}_{i..} - \bar{Y}_{.j.} + \bar{Y}...)^2 \)
+
+- **Erro**:  
+  \( SQ_E = \sum_{i=1}^{a} \sum_{j=1}^{b} \sum_{k=1}^{r} (Y_{ijk} - \bar{Y}_{ij.})^2 \)
+
+### Graus de Liberdade (GL)
+
+- GL Total: \( ab \cdot r - 1 \)  
+- GL A: \( a - 1 \)  
+- GL B: \( b - 1 \)  
+- GL AB: \( (a - 1)(b - 1) \)  
+- GL Erro: \( ab(r - 1) \)
+
+### Quadrado Médio (QM)
+
+- \( QM_A = \dfrac{SQ_A}{a - 1} \)  
+- \( QM_B = \dfrac{SQ_B}{b - 1} \)  
+- \( QM_{AB} = \dfrac{SQ_{AB}}{(a - 1)(b - 1)} \)  
+- \( QM_E = \dfrac{SQ_E}{ab(r - 1)} \)
+
+### Estatísticas F
+
+- \( F_A = \dfrac{QM_A}{QM_E} \)  
+- \( F_B = \dfrac{QM_B}{QM_E} \)  
+- \( F_{AB} = \dfrac{QM_{AB}}{QM_E} \)
