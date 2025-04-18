@@ -3,6 +3,14 @@
 ## Livro: Curso de Estatística Experimental
 
 ---
+### 📘 Estatística aplicada à pesquisa agrícola
+![Estatística aplicada à pesquisa agrícola](./imagens/Estatística aplicada.jpg)
+
+### 📗 Curso de Estatística Experimental
+![Curso de Estatística Experimental](./imagens/curso-estatistica-experimental.webp)
+
+### 📙 Experimentação Agrícola
+![Experimentação Agrícola](./imagens/Experimentação.jpg)
 
 Repositório dedicado ao ensino na área de Estatística Experimental nas Ciências Agrárias
 
