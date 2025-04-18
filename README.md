@@ -8,15 +8,16 @@ Repositório dedicado ao ensino na área de Estatística Experimental nas Ciênc
 
 Nosso objetivo é orientar e auxiliar estudantes de graduação e pós-graduação que possuam interesse nos tópicos de Ciência de Dados (Data Science) aplicada ao melhoramento genético de plantas. 
 
-Referências Bibliográficas: RAMALHO, Marco Antonio Patto; SANTOS, João Bosco dos; PINTO, César Augusto Brasil Pereira; SOUZA, Elaine Aparecida de; GONÇALVES, Flávia Maria Avelar; SOUZA, João Cândido de. Genética na agropecuária. 6. ed.Lavras, MG: UFLA, 2021.508 p.ISBN 978-65-8656-114-2.
+Referências Bibliográficas: BANZATTO, David A.; KRONKA, Sérgio do N. Experimentação agrícola. 4. ed. Jaboticabal: FUNEP, 2006.
 
-Referências Bibliográficas: HARTL, Daniel L.; CLARK, Andrew G. Princípios de genética de populações. 4. ed. Porto Alegre: Artmed, 2010.
+Referências Bibliográficas: PIMENTEL-GOMES, Frederico. Curso de estatística experimental. 15. ed. Piracicaba: FEALQ, 2009. (Volume 15).
 
+Referências Bibliográficas: ZIMMERMANN, Francisco José Péliasticker. Estatística aplicada à pesquisa agrícola. 2. ed. rev. e ampl. Brasília, DF: Embrapa Informação Tecnológica, 2004.
 
 ---
 ## Descrição
 
-Este repositório conta com diversas rotinas do software R voltadas para o auxilio de estudantes. Aqui aborda, de forma ampla e integrada, os principais temas da Genética, desde conceitos clássicos como herança mendeliana, divisão celular e variabilidade genética, até tópicos avançados como genética molecular, expressão gênica, evolução e biotecnologia. Com aplicações em áreas como saúde, agricultura e conservação, o conteúdo é ideal para estudantes e profissionais que buscam entender como os genes influenciam os organismos e seu desenvolvimento.
+Este repositório conta com diversas rotinas do software R voltadas para o auxilio de estudantes. Aqui aborda, experimentos e exercicios em Estatística Experimental aplicada à pesquisa agrícola. Delineamentos experimentais como DIC, DBC e parcelas subdivididas, além de experiência com testes de significância, análise de regressão (incluindo polinômios ortogonais) e análise de covariância.
 
 ## Responsáveis
 
