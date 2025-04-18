@@ -1,13 +1,10 @@
-# Estatística Experimental
-Comparativo de Livros sobre Estatística Experimental nas Ciências Agrárias
-
 ## Livro: Estatística Experimental Aplicada às Ciências Agrárias
 ## Livro: Experimentação Agrícola
 ## Livro: Curso de Estatística Experimental
 
 ---
 
-Repositório dedicado ao ensino na área de Genética na Agropecuária e Princípios de Genética de População.
+Repositório dedicado ao ensino na área de Estatística Experimental nas Ciências Agrárias
 
 Nosso objetivo é orientar e auxiliar estudantes de graduação e pós-graduação que possuam interesse nos tópicos de Ciência de Dados (Data Science) aplicada ao melhoramento genético de plantas. 
 
