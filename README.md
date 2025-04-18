@@ -3,19 +3,19 @@ Repositório dedicado ao ensino na área de Estatística Experimental nas Ciênc
 ***
 ## Estatística Aplicada à Pesquisa Agrícola  
 **Autor:** Francisco José Pielsticker Zimmermann  
-![Estatística Aplicada](Estatistica.jpg){width=25%}
+![Estatística Aplicada](Estatistica.jpg){width=15%}
 
 ***
 
 ## Curso de Estatística Experimental  
 **Autor:** Frederico Pimentel-Gomes  
-![Curso de Estatística Experimental](Curso.webp){width=25%}
+![Curso de Estatística Experimental](Curso.webp){width=15%}
 
 ***
 
 ## Experimentação Agrícola  
 **Autores:** David A. Banzatto & Sérgio do N. Kronka  
-![Experimentação Agrícola](Experimentação.jpg){width=25%}
+![Experimentação Agrícola](Experimentação.jpg){width=15%}
 
 
 Referências Bibliográficas: BANZATTO, David A.; KRONKA, Sérgio do N. Experimentação agrícola. 4. ed. Jaboticabal: FUNEP, 2006.
