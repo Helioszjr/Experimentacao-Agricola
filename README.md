@@ -8,7 +8,8 @@ Repositório dedicado ao ensino na área de Estatística Experimental nas Ciênc
 **Autor:** Frederico Pimentel-Gomes  
 
 # Experimentação Agrícola  
-**Autores:** David A. Banzatto & Sérgio do N. Kronka  
+**Autores:** David A. Banzatto & Sérgio do N. Kronka
+
 ---
 
 
