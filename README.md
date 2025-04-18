@@ -7,7 +7,7 @@
 ![Estatística aplicada à pesquisa agrícola](./imagens/Estatística aplicada.jpg)
 
 ### 📗 Curso de Estatística Experimental
-![Curso de Estatística Experimental](./imagens/curso-estatistica-experimental.webp)
+![Curso de Estatística Experimental](./imagens/cursojpg)
 
 ### 📙 Experimentação Agrícola
 ![Experimentação Agrícola](./imagens/Experimentação.jpg)
