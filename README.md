@@ -6,8 +6,6 @@
 
 Repositório dedicado ao ensino na área de Estatística Experimental nas Ciências Agrárias
 
-Nosso objetivo é orientar e auxiliar estudantes de graduação e pós-graduação que possuam interesse nos tópicos de Ciência de Dados (Data Science) aplicada ao melhoramento genético de plantas. 
-
 Referências Bibliográficas: BANZATTO, David A.; KRONKA, Sérgio do N. Experimentação agrícola. 4. ed. Jaboticabal: FUNEP, 2006.
 
 Referências Bibliográficas: PIMENTEL-GOMES, Frederico. Curso de estatística experimental. 15. ed. Piracicaba: FEALQ, 2009. (Volume 15).
