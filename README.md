@@ -14,7 +14,7 @@ Repositório dedicado ao ensino na área de Estatística Experimental nas Ciênc
 
 
 # Experimentação Agrícola  
-**Autores:** David A. Banzatto & Sérgio do N. Kronka
+**Autores:** David A. Banzatto & Sérgio do N. Kronka   
 **Referências Bibliográficas:** BANZATTO, David A.; KRONKA, Sérgio do N. Experimentação agrícola. 4. ed. Jaboticabal: FUNEP, 2006.
 
 ---
