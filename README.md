@@ -3,30 +3,22 @@ Repositório dedicado ao ensino na área de Estatística Experimental nas Ciênc
 ![](estatistica.png)
 
 ***
-## Estatística Aplicada à Pesquisa Agrícola  
+# Estatística Aplicada à Pesquisa Agrícola  
 **Autor:** Francisco José Pielsticker Zimmermann  
-![Estatística Aplicada](Estatistica.jpg){width=15%}
+**Referências Bibliográficas:** ZIMMERMANN, Francisco José Péliasticker. Estatística aplicada à pesquisa agrícola. 2. ed. rev. e ampl. Brasília, DF: Embrapa Informação Tecnológica, 2004.
 
-***
 
-## Curso de Estatística Experimental  
+# Curso de Estatística Experimental  
 **Autor:** Frederico Pimentel-Gomes  
-![Curso de Estatística Experimental](Curso.webp){width=15%}
-
-***
-
-## Experimentação Agrícola  
-**Autores:** David A. Banzatto & Sérgio do N. Kronka  
-![Experimentação Agrícola](Experimentação.jpg){width=15%}
+**Referências Bibliográficas:** PIMENTEL-GOMES, Frederico. Curso de estatística experimental. 15. ed. Piracicaba: FEALQ, 2009. (Volume 15).
 
 
-Referências Bibliográficas: BANZATTO, David A.; KRONKA, Sérgio do N. Experimentação agrícola. 4. ed. Jaboticabal: FUNEP, 2006.
+# Experimentação Agrícola  
+**Autores:** David A. Banzatto & Sérgio do N. Kronka
+**Referências Bibliográficas:** BANZATTO, David A.; KRONKA, Sérgio do N. Experimentação agrícola. 4. ed. Jaboticabal: FUNEP, 2006.
 
-Referências Bibliográficas: PIMENTEL-GOMES, Frederico. Curso de estatística experimental. 15. ed. Piracicaba: FEALQ, 2009. (Volume 15).
+---
 
-Referências Bibliográficas: ZIMMERMANN, Francisco José Péliasticker. Estatística aplicada à pesquisa agrícola. 2. ed. rev. e ampl. Brasília, DF: Embrapa Informação Tecnológica, 2004.
-
-***
 ## Descrição
 
 Este repositório conta com diversas rotinas do software R voltadas para o auxilio de estudantes. Aqui aborda, experimentos e exercicios em Estatística Experimental aplicada à pesquisa agrícola. Delineamentos experimentais como DIC, DBC e parcelas subdivididas, além de experiência com testes de significância, análise de regressão (incluindo polinômios ortogonais) e análise de covariância.
@@ -48,6 +40,6 @@ Este repositório conta com diversas rotinas do software R voltadas para o auxil
 ***
 ## Contribua
 
-- Em caso de erros entre em contato pelos e-mails: helioszjr@gmail.com
+- Em caso de erros entre em contato pelo e-mail: helioszjr@gmail.com
 - Sugestões de novos procedimentos são sempre bem-vindas.
 
