@@ -1,6 +1,6 @@
 Repositório dedicado ao ensino na área de Estatística Experimental nas Ciências Agrárias
 
-![](estatistica.png){width=25%}
+![](estatistica.png)
 
 ***
 # Experimentação Agrícola  
