@@ -1,5 +1,7 @@
 Repositório dedicado ao ensino na área de Estatística Experimental nas Ciências Agrárias
 
+![](estatistica.png)
+
 ***
 ## Estatística Aplicada à Pesquisa Agrícola  
 **Autor:** Francisco José Pielsticker Zimmermann  
